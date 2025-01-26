@@ -1,0 +1,20 @@
+services:
+  database:
+    container_name: dev_medical_scheduling
+    image: mongodb/mongodb-atlas-local
+    ports:
+      - "27017:27017"
+    env_file:
+      - .env
+    volumes:
+      - data:/data/db
+      - config:/data/configdb
+    networks:
+      - dev_medical_scheduling
+
+networks:
+  dev_medical_scheduling:
+    driver: bridge
+volumes:
+  data:
+  config:
