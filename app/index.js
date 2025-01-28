@@ -2,6 +2,9 @@ import { express } from 'express';
 import { parser } from 'body-parser';
 import { cors } from 'cors';
 import { routes } from './routes/router.js';
+import { configDotenv } from 'dotenv';
+
+configDotenv();
 
 const app = express();
 
@@ -10,7 +13,7 @@ const { json, urlencoded } = parser;
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors());  
 
 app.use('/api', routes);
 
