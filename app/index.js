@@ -1,10 +1,10 @@
-import { express } from 'express';
-import { parser } from 'body-parser';
-import { cors } from 'cors';
-import { routes } from './routes/router.js';
-import { configDotenv } from 'dotenv';
+import express from 'express';
+import parser from 'body-parser';
+import routes from './routes/router.js';
+import configDotenv from 'dotenv';
+import cors from 'cors';
 
-configDotenv();
+configDotenv.config();
 
 const app = express();
 
