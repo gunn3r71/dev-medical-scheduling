@@ -1,18 +1,13 @@
-import { Mongoose } from "mongoose";
+import mongoose from "mongoose";
 
-const schema = Mongoose.Schema; 
-
-const model = {
-    id: { type: String, required: [true, 'ID is required'], unique: true },
+const appointmentSchema = new mongoose.Schema({
     date: { type: Date, required: [true, 'Appointment date is required'] },
     patientId: { type: String, required: [true, 'Patient ID is required' ] },
     doctorId: { type: String, required: [true, 'Doctor ID is required'] },
-    reason: { type: String, required: [true, 'Reason for appointment is required'] },
+    reason: { type: String, required: false },
     createdAt: { type: Date, default: Date.now }
-};
+});
 
-const appointmentSchema = new schema(model);
-
-const appointment = Mongoose.model('Appointments', appointmentSchema);
+const appointment = mongoose.model('Appointment', appointmentSchema);
 
 export default appointment;

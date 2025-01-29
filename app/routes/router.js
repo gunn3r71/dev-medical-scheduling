@@ -11,9 +11,9 @@ router.get('/', (req, res) => {
     res.status(200).json({ message: 'Hello, world!' });
 });
 
-router.use("/", appointmentController);
-router.use("/", doctorController);
-router.use("/", pacientController);
-router.use("/", prescriptionController);
+router.use("/appointments", appointmentController);
+router.use("/doctors", doctorController);
+router.use("/pacients", pacientController);
+router.use("/prescriptions", prescriptionController);
 
 export default router;
