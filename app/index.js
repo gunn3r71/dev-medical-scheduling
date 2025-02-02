@@ -11,7 +11,7 @@ console.log(`Connected to database... ${db.name}`);
 
 const app = express();
 
-const { HOST = localhost, PORT = 3000 } = process.env;
+const { HOST = "localhost", PORT = 3000 } = process.env;
 const { json, urlencoded } = parser;
 
 app.use(json());
