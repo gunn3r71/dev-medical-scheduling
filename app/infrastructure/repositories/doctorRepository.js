@@ -9,9 +9,9 @@ const getById = async (id) => {
 };
 
 const saveDoctor = async ({name, specialties, medicalRegistration, phoneNumber, email}) => {
-    const Doctor = new Doctor({name, specialties, medicalRegistration, phoneNumber, email});
+    const doctor = new Doctor({name, specialties, medicalRegistration, phoneNumber, email});
 
-    return await Doctor.save();
+    return await doctor.save();
 }
 
 const updateDoctor = async (id, { name, specialties, phoneNumber, email}) => {

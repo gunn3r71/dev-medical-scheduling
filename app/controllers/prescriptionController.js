@@ -1,7 +1,9 @@
 import express from 'express';
 import prescriptionService from '../services/prescriptionService.js';
+import validators from '../validators/prescriptionValidator.js';
 import errorMiddleware from '../middlewares/errorHandler.js';
 import asyncHandler from '../middlewares/asyncHandler.js';
+import validate from '../middlewares/validationErrorsHandler.js';
 
 let router = express.Router();
 
@@ -22,14 +24,14 @@ router.get('/:id', asyncHandler(async (req, res) => {
     }
 }));
 
-router.post('/', async (req, res) => {
+router.post('/', validate(validators.createPrescriptionValidator()), asyncHandler(async (req, res) => {
     const { date, instructions, dosage, Expired, appointmentId }  = req.body;
 
     const prescription = await prescriptionService.savePrescription({ date, instructions, dosage, Expired, appointmentId });
     res.status(201).json(prescription);
-});
+}));
 
-router.put('/:id', asyncHandler(async (req, res) => {
+router.put('/:id', validate(validators.updatePrescriptionValidator()), asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { date, instructions, dosage, Expired } = req.body;
 
@@ -40,4 +42,4 @@ router.put('/:id', asyncHandler(async (req, res) => {
 
 router.use(errorMiddleware);
 
-export default router();
+export default router;

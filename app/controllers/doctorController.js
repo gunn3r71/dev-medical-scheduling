@@ -1,7 +1,9 @@
 import express from 'express';
+import validators from '../validators/doctorValidator.js';
 import doctorService from '../services/doctorService.js';
 import errorMiddleware from '../middlewares/errorHandler.js';
 import asyncHandler from '../middlewares/asyncHandler.js';
+import validate from '../middlewares/validationErrorsHandler.js';
 
 let router = express.Router();
 
@@ -22,14 +24,14 @@ router.get('/:id', asyncHandler(async (req, res) => {
     }
 }));
 
-router.post('/', async (req, res) => {
+router.post('/',  validate(validators.createDoctorValidator()), asyncHandler(async (req, res) => {
     const { name, specialties, medicalRegistration, phoneNumber, email }  = req.body;
 
     const doctor = await doctorService.saveDoctor({ name, specialties, medicalRegistration, phoneNumber, email });
     res.status(201).json(doctor);
-});
+}));
 
-router.put('/:id', asyncHandler(async (req, res) => {
+router.put('/:id', validate(validators.updateDoctorValidator()), asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { name, specialties, phoneNumber, email} = req.body;
 
@@ -39,7 +41,7 @@ router.put('/:id', asyncHandler(async (req, res) => {
 }));
 
 router.delete('/:id', asyncHandler(async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params;      
 
     await doctorService.deleteDoctor(id);
         
@@ -48,4 +50,4 @@ router.delete('/:id', asyncHandler(async (req, res) => {
 
 router.use(errorMiddleware);
 
-export default router();
+export default router;

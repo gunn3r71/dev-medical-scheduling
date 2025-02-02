@@ -1,7 +1,7 @@
 services:
   mongo:
     container_name: dev_medical_scheduling_db
-    image: mongodb/mongodb-atlas-local
+    image: mongo:latest
     ports:
       - "27017:27017"
     env_file:
@@ -11,18 +11,6 @@ services:
       - config:/data/configdb
     networks:
       - dev_medical_scheduling
-
-  mongoexpress:
-    container_name: dev_medical_scheduling_mongoexpress
-    image: mongo-express:1.0.2-20-alpine3.19
-    ports:
-      - "8081:8081"
-    env_file:
-      - .env
-    networks:
-      - dev_medical_scheduling
-    depends_on:
-      - mongo
 
 networks:
   dev_medical_scheduling:

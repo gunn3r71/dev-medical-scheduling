@@ -1,4 +1,6 @@
 import Appointment from '../../models/appointment.js';
+import Doctor from '../../models/doctor.js';
+import Pacient from '../../models/pacient.js';
 
 const getAll = async () => {
     return await Appointment.find();
@@ -17,6 +19,13 @@ const getByPacientId = async (pacientId) => {
 };
 
 const saveAppointment = async ({ date, doctorId, pacientId, reason}) => {
+    const doctorExists = await Doctor.findById(doctorId);
+    const pacientExists = await Pacient.findById(pacientId);
+
+    if (!doctorExists || !pacientExists) {
+        throw new Error('Doctor or Pacient not found');
+    }
+
     const appointment = new Appointment({ date, doctorId, pacientId, reason });
 
     return await appointment.save();

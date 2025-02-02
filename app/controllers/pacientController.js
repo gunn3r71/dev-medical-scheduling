@@ -1,7 +1,9 @@
 import express from 'express';
 import pacientService from '../services/pacientService.js';
+import validators from '../validators/pacientValidator.js';
 import errorMiddleware from '../middlewares/errorHandler.js';
 import asyncHandler from '../middlewares/asyncHandler.js';
+import validate from '../middlewares/validationErrorsHandler.js';
 
 let router = express.Router();
 
@@ -22,14 +24,14 @@ router.get('/:id', asyncHandler(async (req, res) => {
     }
 }));
 
-router.post('/', async (req, res) => {
+router.post('/', validate(validators.createPacientValidator()), asyncHandler(async (req, res) => {
     const { name, birthDate, lastMedicalAppointment, phoneNumber, email }  = req.body;
 
     const pacient = await pacientService.savePacient({ name, birthDate, lastMedicalAppointment, phoneNumber, email });
     res.status(201).json(pacient);
-});
+}));
 
-router.put('/:id', asyncHandler(async (req, res) => {
+router.put('/:id', validate(validators.updatePacientValidator()), asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { name, birthDate, lastMedicalAppointment, phoneNumber, email } = req.body;
 
@@ -48,4 +50,4 @@ router.delete('/:id', asyncHandler(async (req, res) => {
 
 router.use(errorMiddleware);
 
-export default router();
+export default router;

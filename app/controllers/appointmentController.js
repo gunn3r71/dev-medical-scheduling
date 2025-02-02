@@ -1,7 +1,9 @@
 import express from 'express';
 import appointmentService from '../services/appoinmentService.js';
+import validators from '../validators/appointmentValidator.js';
 import errorMiddleware from '../middlewares/errorHandler.js';
 import asyncHandler from '../middlewares/asyncHandler.js';
+import validate from '../middlewares/validationErrorsHandler.js';
 
 let router = express.Router();
 
@@ -36,14 +38,14 @@ router.get('/pacient/:pacientId', asyncHandler(async (req, res) => {
     res.status(200).json(appointments);
 }));
 
-router.post('/', async (req, res) => {
+router.post('/', validate(validators.createAppointmentValidator()), asyncHandler(async (req, res) => {
     const { pacientId, doctorId, date, reason } = req.body;
 
     const appointment = await appointmentService.saveAppointment({ pacientId, doctorId, date, reason });
     res.status(201).json(appointment);
-});
+}));
 
-router.put('/:id', asyncHandler(async (req, res) => {
+router.put('/:id', validate(validators.updateAppointmentValidator()), asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { date, reason } = req.body;
 
