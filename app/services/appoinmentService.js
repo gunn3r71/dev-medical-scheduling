@@ -28,6 +28,22 @@ const deleteAppointment = async (id) => {
     return await appointmentRepository.deleteAppointment(id);
 }
 
+const rescheduleAppointment = async (id, date) => {
+    if (date <= new Date()) {
+        throw new Error('Date must be in the future');
+    }
+    
+    let appointment = await getById(id);
+
+    if(!appointment) {
+        throw new Error('Appointment not found');
+    }
+
+    await updateAppointment(id, { date } );
+
+    return await appointmentRepository.updateAppointment(id, {date});
+}
+
 const appointmentService = {
     getAll,
     getById,
@@ -35,7 +51,8 @@ const appointmentService = {
     getByPacientId,
     saveAppointment,
     updateAppointment,
-    deleteAppointment
+    deleteAppointment,
+    rescheduleAppointment
 };
 
 export default appointmentService;

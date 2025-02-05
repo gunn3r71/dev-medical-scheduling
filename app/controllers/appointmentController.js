@@ -54,6 +54,15 @@ router.put('/:id', validate(validators.updateAppointmentValidator()), asyncHandl
     res.status(204).send();
 }));
 
+router.patch('/:id/reschedule', asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { date } = req.body;
+
+    await appointmentService.rescheduleAppointment(id, date);
+        
+    res.status(204).send();
+}))
+
 router.delete('/:id', asyncHandler(async (req, res) => {
     const { id } = req.params;
 
